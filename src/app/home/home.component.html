@@ -1,0 +1,120 @@
+<h3>CRUD</h3>
+
+<mat-tab-group mat-align-tabs="start" style="padding-top: 40px; padding-left: 2%; padding-right:2%;">
+    <mat-tab label="Cadastro">
+        <div fxLayout="row" fxLayoutAlign="space-around center" style="padding: 2%;">
+            <ng-container style="margin: 0.5%;">
+                <div class="container">
+                    <mat-card class="mat-card-caixa" fxFlex="0 1 calc(33.3% - 11px)" fxFlex.lt-md="0 1 calc(50% - 11px)"
+                        fxFlex.lt-sm="100%">
+                        <form [formGroup]="caixaForm">
+                            <mat-form-field class="example-full-width">
+                                <input placeholder="Digite o nome da caixa"
+                                   id="name" matInput formControlName="name" name="name">
+                            </mat-form-field>
+                        </form>
+                        <button mat-raised-button color="primary" (click)="createCaixa()">Adicionar</button>
+                    </mat-card>
+                </div>
+            </ng-container>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<mat-tab-group mat-align-tabs="start" style="padding-top: 40px; padding-left: 2%; padding-right:2%;">
+    <mat-tab label="Caixas">
+        <div fxLayout="row" fxLayoutAlign="space-around center" style="padding: 2%;">
+            <ng-container style="margin: 0.5%;">
+                <div class="container">
+                    <div class="card list-car">
+                        <h5 class="card-header">Lista de caixas</h5>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let caixa of caixas">
+                                        <td>{{caixa.id}}</td>
+                                        <td>{{caixa.name}}</td>
+                                        <td>
+                                            <button mat-icon-button aria-label="Delete" color="warn"
+                                                (click)="deleteCaixa(caixa)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                            <button (click)="openModal(caixa)" data-toggle="modal" data-target="#modalEdit" mat-icon-button
+                                                aria-label="Edit" color="accent">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+
+<!-- Modal de editar -->
+<div class="modal fade" id="modalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Editar nome da caixa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div *ngIf="caixa" class="modal-body">
+                <form [formGroup]="caixaForm">
+                    <mat-form-field class="example-full-width">
+                        <input [(ngModel)]="caixa.name" id="name" matInput formControlName="name" name="name">
+                    </mat-form-field>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="editCaixa(caixa)">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--
+<mat-tab-group mat-align-tabs="start" style="padding-top: 40px; padding-left: 2%; padding-right:2%;">
+    <mat-tab label="Caixas">
+        <div fxLayout="row" fxLayoutAlign="space-around center" style="padding: 2%;">
+            <ng-container *ngFor="let caixa of caixas" style="margin: 0.5%;">
+                <mat-card class="mat-card-caixa" fxFlex="0 1 calc(33.3% - 11px)" fxFlex.lt-md="0 1 calc(50% - 11px)"
+                    fxFlex.lt-sm="100%">
+                    <mat-card-title>
+                        # {{ caixa.id }}
+                    </mat-card-title>
+                    <mat-card-content>
+                        <p>NAME: {{ caixa.name }}</p>
+                        <button mat-icon-button aria-label="Delete" color="warn" (click)="deleteCaixa()">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-card-content>
+                    
+                    <button  mat-icon-button aria-label="Edit" color="accent" (click)="editCaixa()">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </mat-card>
+            </ng-container>
+        </div>
+    </mat-tab>
+</mat-tab-group> -->
