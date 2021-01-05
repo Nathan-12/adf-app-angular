@@ -16,6 +16,7 @@
   "dependencies": {
     "@alfresco/adf-content-services": "2.0.0",
     "@alfresco/adf-core": "2.0.0",
+    "@alfresco/js-api": "^4.2.0",
     "@angular-devkit/core": "^11.0.5",
     "@angular/animations": "5.0.0",
     "@angular/common": "5.0.0",

@@ -1,3 +1,29 @@
+<adf-document-list
+  #documentList
+  [currentFolderId]="'-root-'" 
+  [contentActions]="true" 
+  (preview)="showPreview($event)">
+
+  <content-actions>
+
+    <!-- Gerar Dociê -->
+    <content-action
+        target="folder"
+        title="buscar grupos"
+        (execute)="getGroups($event)"
+        [disableWithNoPermission]="true"
+    >
+    </content-action>
+    <content-action
+        target="folder"
+        title="gerar lista de arquivos"
+        [disableWithNoPermission]="true"
+    >
+    </content-action>
+    <!--Create comment-->
+  </content-actions>
+</adf-document-list>
+
 <h3>CRUD</h3>
 
 <mat-tab-group mat-align-tabs="start" style="padding-top: 40px; padding-left: 2%; padding-right:2%;">
@@ -8,7 +34,7 @@
                     <mat-card class="mat-card-caixa" fxFlex="0 1 calc(33.3% - 11px)" fxFlex.lt-md="0 1 calc(50% - 11px)"
                         fxFlex.lt-sm="100%">
                         <form [formGroup]="caixaForm">
-                            <mat-form-field class="example-full-width">
+                            <mat-form-field class="examples-full-width">
                                 <input placeholder="Digite o nome da caixa"
                                    id="name" matInput formControlName="name" name="name">
                             </mat-form-field>
@@ -32,7 +58,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Id</th>
+                                        <th scope="col">#</th>
                                         <th scope="col">Nome</th>
                                         <th scope="col">Ações</th>
                                     </tr>
@@ -42,8 +68,8 @@
                                         <td>{{caixa.id}}</td>
                                         <td>{{caixa.name}}</td>
                                         <td>
-                                            <button mat-icon-button aria-label="Delete" color="warn"
-                                                (click)="deleteCaixa(caixa)">
+                                            <button (click)="openModalDelete(caixa)" mat-icon-button aria-label="Delete" data-toggle="modal" 
+                                            color="warn" data-target="#deleteModal">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
                                             <button (click)="openModal(caixa)" data-toggle="modal" data-target="#modalEdit" mat-icon-button
@@ -75,7 +101,7 @@
                 </button>
             </div>
             <div *ngIf="caixa" class="modal-body">
-                <form [formGroup]="caixaForm">
+                <form [formGroup]="caixaFormEdit">
                     <mat-form-field class="example-full-width">
                         <input [(ngModel)]="caixa.name" id="name" matInput formControlName="name" name="name">
                     </mat-form-field>
@@ -83,38 +109,32 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (click)="editCaixa(caixa)">Salvar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editCaixa(caixa)">Salvar</button>
             </div>
         </div>
     </div>
 </div>
 
 
-
-
-
-<!--
-<mat-tab-group mat-align-tabs="start" style="padding-top: 40px; padding-left: 2%; padding-right:2%;">
-    <mat-tab label="Caixas">
-        <div fxLayout="row" fxLayoutAlign="space-around center" style="padding: 2%;">
-            <ng-container *ngFor="let caixa of caixas" style="margin: 0.5%;">
-                <mat-card class="mat-card-caixa" fxFlex="0 1 calc(33.3% - 11px)" fxFlex.lt-md="0 1 calc(50% - 11px)"
-                    fxFlex.lt-sm="100%">
-                    <mat-card-title>
-                        # {{ caixa.id }}
-                    </mat-card-title>
-                    <mat-card-content>
-                        <p>NAME: {{ caixa.name }}</p>
-                        <button mat-icon-button aria-label="Delete" color="warn" (click)="deleteCaixa()">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </mat-card-content>
-                    
-                    <button  mat-icon-button aria-label="Edit" color="accent" (click)="editCaixa()">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </mat-card>
-            </ng-container>
+  
+  <!-- Modal Delete -->
+  <div class="modal fade" id="deleteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Excluir</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-    </mat-tab>
-</mat-tab-group> -->
+        <div class="modal-body">
+          Deseja excluir a caixa: "{{ caixa.name }}" ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+          <button type="button" class="btn btn-primary" (click)="deleteCaixa(caixa)" data-dismiss="modal">Sim</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
